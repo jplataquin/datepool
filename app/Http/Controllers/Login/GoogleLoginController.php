@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Login;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,6 +27,6 @@ class GoogleLoginController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect('/dashboard');
     }
 }
