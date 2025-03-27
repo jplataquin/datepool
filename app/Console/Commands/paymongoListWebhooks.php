@@ -162,7 +162,7 @@ class paymongoListWebhooks extends Command
                         'events'=>$events
                     ]
                 ]
-             ]),[
+             ]))->withHeaders([
                 'Accept'        => 'application/json',
                 'Content-Type'  => 'application/json',
                 'Authorization' => 'Basic '.base64_encode( $secret_key.':' )
