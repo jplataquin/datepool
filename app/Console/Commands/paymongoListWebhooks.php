@@ -47,6 +47,9 @@ class paymongoListWebhooks extends Command
             return true;
         }
 
+        $this->line('Basic '.base64_encode( $secret_key.':' ));
+        $this->newLine();
+        
         switch($action){
             case 'list':
              
@@ -163,7 +166,7 @@ class paymongoListWebhooks extends Command
                 $this->line($i);
                 $this->newLine();
             }
-            
+
             if(!isset($response['data'])){
                 $this->error('Unrecogonized response structure from Paymongo. (data)');
 
