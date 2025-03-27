@@ -47,7 +47,7 @@ class paymongoListWebhooks extends Command
             return true;
         }
 
-        $this->line('Basic '.base64_encode( $secret_key.':' ));
+        $this->line('Authorization: Basic '.base64_encode( $secret_key.':' ));
         $this->newLine();
         
         switch($action){
@@ -83,27 +83,36 @@ class paymongoListWebhooks extends Command
             }
 
 
-            foreach($response as $k => $i){
-                $this->line($k .':');
-                $this->line($i);
-                $this->newLine();
-            }
-
             $items = $response['data'];
 
             $arr = [];
 
-            foreach($items as $key => $item){
-         
-                $arr = [$item];
+            foreach($items as $item){
+                
+                $type = 'test';
+
+                if($item['attributes']['livemode']){
+                    $type = 'live';
+                }
+
+                $arr[] = [
+                    $type,
+                    $item['attributes']['status'],
+                    $item['id'],
+                    $item['attributes']['url'],
+                    implode(',',$item['attributes']['events']),
+                    $item['attributes']['created_at'],
+                    $item['attributes']['updated_at'],
+                ];
             }
 
             $this->newLine();
             $this->line('Mode: '.strtoupper($mode));
             $this->newLine();
+            $this->line(json_encode($items));
             $this->table(
 
-                ['Webhooks'],
+                ['live','status','id','url','events','created_at','updated_at'],
             
                 $arr
             
@@ -146,26 +155,24 @@ class paymongoListWebhooks extends Command
 
             $this->line('Fetching...');
 
-            $response = Http::withHeaders([
-                'Accept'        => 'application/json',
-                'Content-Type'  => 'application/json',
-                'Authorization' => 'Basic '.base64_encode( $secret_key.':' )
-            ])->post($url, [
+            $response = Http::withBody(json_encode([
                 'data'=>[
                     'attributes'=>[
-                        'url' => $url,
+                        'url'   => $url,
                         'events'=>$events
                     ]
                 ]
-            ])
+             ]),[
+                'Accept'        => 'application/json',
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Basic '.base64_encode( $secret_key.':' )
+            ])->post($url)
             ->throw()
             ->json();
             
-            foreach($response as $k => $i){
-                $this->line($k .':');
-                $this->line($i);
-                $this->newLine();
-            }
+            
+            $this->line(json_encode($response));
+            $this->newLine();
 
             if(!isset($response['data'])){
                 $this->error('Unrecogonized response structure from Paymongo. (data)');
