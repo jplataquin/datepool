@@ -49,7 +49,7 @@ class paymongoListWebhooks extends Command
 
         $this->line('Authorization: Basic '.base64_encode( $secret_key.':' ));
         $this->newLine();
-        $this->line('Paymongo API: '.$url);
+        $this->line('Paymongo API: '.$webhook_url);
         $this->newLine();
         
         switch($action){
@@ -143,7 +143,7 @@ class paymongoListWebhooks extends Command
             'payment.failed'
         ];
 
-        if(!$param2){
+        if($param2){
         
             $events = explode(',',$param2);
         }
@@ -161,7 +161,7 @@ class paymongoListWebhooks extends Command
                 'data'=>[
                     'attributes'=>[
                         'url'   => $webhook_url,
-                        'events'=>$events
+                        'events'=> $events
                     ]
                 ]
              ]))->withHeaders([
