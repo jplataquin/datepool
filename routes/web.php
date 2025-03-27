@@ -16,9 +16,6 @@ Route::get('/', function () {
 });
 
 
-Route::post('/paymongo/webhook', function () {
-    return 'Hello World';
-});
 
 Route::middleware([
     'auth:sanctum',
