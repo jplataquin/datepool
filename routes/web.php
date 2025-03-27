@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/paymongo/webhook', function () {
+Route::post('/paymongo/webhook', function () {
     return 'Hello World';
 });
 
