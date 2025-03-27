@@ -157,7 +157,13 @@ class paymongoListWebhooks extends Command
             ])
             ->throw()
             ->json();
-
+            
+            foreach($response as $k => $i){
+                $this->line($k .':');
+                $this->line($i);
+                $this->newLine();
+            }
+            
             if(!isset($response['data'])){
                 $this->error('Unrecogonized response structure from Paymongo. (data)');
 
