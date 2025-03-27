@@ -49,7 +49,7 @@ class paymongoListWebhooks extends Command
 
         $this->line('Authorization: Basic '.base64_encode( $secret_key.':' ));
         $this->newLine();
-        $this->line('Paymongo API: '.$webhook_url);
+        $this->line('Paymongo API: '.$url);
         $this->newLine();
         
         switch($action){
@@ -194,7 +194,7 @@ class paymongoListWebhooks extends Command
           
             $this->error('Something went wrong');
             $this->newLine();
-            $this->line('uri: '.$url);
+            $this->line('uri: '.$webhook_url);
             $this->newLine();
             $this->line($e->getMessage());
         }
