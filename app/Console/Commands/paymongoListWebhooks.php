@@ -83,7 +83,10 @@ class paymongoListWebhooks extends Command
 
             $arr = [];
 
-            foreach($items as $item){
+            foreach($items as $key => $item){
+                $this->line($key .':');
+                $this->line($item);
+                $this->newLine();
                 $arr = [$item];
             }
 
@@ -98,8 +101,7 @@ class paymongoListWebhooks extends Command
             
             );
 
-            $this->newLine();
-            $this->line($response);
+       
 
         }catch(\Exception $e){
 
