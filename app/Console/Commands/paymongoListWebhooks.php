@@ -79,14 +79,19 @@ class paymongoListWebhooks extends Command
                 return true;
             }
 
+
+            foreach($response as $k => $i){
+                $this->line($k .':');
+                $this->line($i);
+                $this->newLine();
+            }
+
             $items = $response['data'];
 
             $arr = [];
 
             foreach($items as $key => $item){
-                $this->line($key .':');
-                $this->line($item);
-                $this->newLine();
+         
                 $arr = [$item];
             }
 
