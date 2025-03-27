@@ -153,8 +153,8 @@ class paymongoListWebhooks extends Command
             if(!isset($response['data'])){
                 $this->error('Unrecogonized response structure from Paymongo. (data)');
 
-                $this->newLine($response);
-                
+                $this->line($response);
+
                 return true;
             }
 
