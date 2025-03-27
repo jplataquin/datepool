@@ -11,16 +11,17 @@ use App\Http\Controllers\Controller;
 
 class GoogleLoginController extends Controller
 {
-    public function redirectToGoogle()
+    public function redirect()
     {
         return Socialite::driver('google')->redirect();
     }
 
 
-    public function handleGoogleCallback()
+    public function handleCallback()
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
-        $user = User::where('email', $googleUser->email)->first();
+        $user       = User::where('email', $googleUser->email)->first();
+        
         if(!$user)
         {
             $user = User::create(['name' => $googleUser->name, 'email' => $googleUser->email, 'password' => \Hash::make(rand(100000,999999))]);

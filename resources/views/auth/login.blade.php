@@ -44,7 +44,12 @@
                 </x-button>
             </div>
             <hr>
-            <a href="{{ route('google.redirect') }}" class="btn btn-primary"> Login with Google </a>
+            <div class="mb-3">
+                <a href="{{ route('google.redirect') }}" class="btn btn-primary"> Login with Google </a>
+            </div>
+            <div class="mb-3">
+                <a href="{{ route('facebook.redirect') }}" class="btn btn-primary"> Login with Facebook </a>
+            </div>
         </form>
     </x-authentication-card>
 </x-guest-layout>

@@ -20,6 +20,15 @@ return [
         'redirect'      => env('GOOGLE_REDIRECT_URL'),
 
     ],
+
+    'facebook' => [
+
+        'client_id'     => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect'      => env('FACEBOOK_REDIRECT_URL'),
+
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
