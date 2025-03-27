@@ -110,24 +110,28 @@ class paymongoListWebhooks extends Command
 
     private function create($mode,$secret_key,$url,$param1,$param2){
         
+
+        if(!$param1){
+            $this->error('Parameter for URI webhook is required');
+        }
+
+        $events = [
+            'source.chargeable',
+            'payment.paid',
+            'payment.failed'
+        ];
+
+        if(!$param2){
+        
+            $events = explode(',',$param2);
+        }
+
+        $url =  url($param1);
+
+        
         try{
 
-            if(!$param1){
-                $this->error('Parameter for URI webhook is required');
-            }
 
-            $events = [
-                'source.chargeable',
-                'payment.paid',
-                'payment.failed'
-            ];
-
-            if(!$param2){
-            
-                $events = explode(',',$param2);
-            }
-
-            $url =  url($param1);
 
             $this->line('Fetching...');
 
@@ -160,6 +164,9 @@ class paymongoListWebhooks extends Command
 
           
             $this->error('Something went wrong');
+            $this->newLine();
+            $this->line('uri: '.$url);
+            $this->newLine();
             $this->line($e->getMessage());
         }
     }
