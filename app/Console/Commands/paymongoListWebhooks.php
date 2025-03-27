@@ -98,7 +98,8 @@ class paymongoListWebhooks extends Command
             
             );
 
-            
+            $this->newLine();
+            $this->line($response);
 
         }catch(\Exception $e){
 
