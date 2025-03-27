@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/paymongo/webhook', function () {
+    return 'Hello World';
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
