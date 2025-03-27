@@ -49,6 +49,8 @@ class paymongoListWebhooks extends Command
 
         $this->line('Authorization: Basic '.base64_encode( $secret_key.':' ));
         $this->newLine();
+        $this->line('Paymongo API: '.$url);
+        $this->newLine();
         
         switch($action){
             case 'list':
@@ -146,7 +148,7 @@ class paymongoListWebhooks extends Command
             $events = explode(',',$param2);
         }
 
-        $url =  url($param1);
+        $webhook_url =  url($param1);
 
 
         try{
@@ -158,7 +160,7 @@ class paymongoListWebhooks extends Command
             $response = Http::withBody(json_encode([
                 'data'=>[
                     'attributes'=>[
-                        'url'   => $url,
+                        'url'   => $webhook_url,
                         'events'=>$events
                     ]
                 ]
