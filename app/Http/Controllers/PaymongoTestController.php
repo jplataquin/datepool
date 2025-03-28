@@ -87,7 +87,7 @@ class PaymongoTestController extends Controller
             ]
         ]);
         echo "<br/><br/>";
-        print_r($response);
+        dd($response);
 
         if(!isset($response['data'])){
             echo 'No Data';
