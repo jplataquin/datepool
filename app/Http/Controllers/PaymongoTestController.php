@@ -51,7 +51,7 @@ class PaymongoTestController extends Controller
             'Authorization' => 'Basic '.base64_encode( $secret_key.':' )
         ])->post('https://api.paymongo.com/v1/checkout_sessions');
         
-        echo son_encode([
+        echo json_encode([
             'data' =>[
                 'attributes'=>[
                     'cancel_url' => url('/'),
