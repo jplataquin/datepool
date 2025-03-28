@@ -48,7 +48,7 @@ class PaymongoTestController extends Controller
         ]))->withHeaders([
             'Accept'        => 'application/json',
             'Content-Type'  => 'application/json',
-            'Authorization' => 'Basic '.base64_encode( $this->secret_key.':' )
+            'Authorization' => 'Basic '.base64_encode( $secret_key.':' )
         ])->post();
 
         print_r($response);
