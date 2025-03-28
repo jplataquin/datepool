@@ -17,7 +17,7 @@ class PaymongoTestController extends Controller
         $response = Http::withBody(json_encode([
             'data' =>[
                 'attributes'=>[
-                    'cancel_url' => '',
+                    'cancel_url' => url('/'),
                     'line_items' =>[
                         [
                             'amount'        => 1000,//10.00
