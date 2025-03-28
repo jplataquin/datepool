@@ -49,7 +49,9 @@ class PaymongoTestController extends Controller
             'Accept'        => 'application/json',
             'Content-Type'  => 'application/json',
             'Authorization' => 'Basic '.base64_encode( $secret_key.':' )
-        ])->post('https://api.paymongo.com/v1/checkout_sessions');
+        ])->post('https://api.paymongo.com/v1/checkout_sessions')
+        ->throw()
+        ->json();
         
         echo json_encode([
             'data' =>[
