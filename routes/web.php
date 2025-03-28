@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 
+Route::get('/pb/test',[App\Http\Controllers\Login\PaymongoTestController::class, 'test']);
+
 
 Route::middleware([
     'auth:sanctum',
