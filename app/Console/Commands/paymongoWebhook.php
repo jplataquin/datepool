@@ -39,10 +39,12 @@ class paymongoWebhook extends Command
             $this->secret_key =  env('PAYMONGO_TEST_SECRET_KEY','');
         }else if($mode == 'live'){
             $this->secret_key =  env('PAYMONGO_LIVE_SECRET_KEY','');
+        }else{
+            $this->error('Mode parameter is required');
         }
 
         if(!$this->secret_key){
-            $this->error('No secret key found in .env file. (PAYMONGO_SECRET_KEY)');
+            $this->error('No secret key found in .env file.');
             return true;
         }
 
