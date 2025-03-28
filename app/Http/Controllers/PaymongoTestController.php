@@ -86,6 +86,6 @@ class PaymongoTestController extends Controller
             ]
         ]);
         echo "<br/><br/>";
-        print_r($response,true);
+        print_r($response);
     }
 }
