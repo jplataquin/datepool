@@ -12,6 +12,8 @@ class PaymongoTestController extends Controller
 
     public function test(){
 
+        $secret_key =  env('PAYMONGO_TEST_SECRET_KEY','');
+
         $response = Http::withBody(json_encode([
             'data' =>[
                 'attributes'=>[
@@ -46,7 +48,7 @@ class PaymongoTestController extends Controller
         ]))->withHeaders([
             'Accept'        => 'application/json',
             'Content-Type'  => 'application/json',
-            'Authorization' => 'Basic '.$this->base64_key
+            'Authorization' => 'Basic '.base64_encode( $this->secret_key.':' )
         ])->post();
 
         print_r($response);
