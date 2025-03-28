@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class PaymongoTestController extends Controller
 {
@@ -87,5 +88,34 @@ class PaymongoTestController extends Controller
         ]);
         echo "<br/><br/>";
         print_r($response);
+
+        if(!isset($response['data'])){
+            echo 'No Data';
+            return false;
+        }
+
+        $data = $response['data'];
+
+        if(!isset($data['attributes'])){
+            echo 'No Attributes';
+            return false;
+        }
+
+        $attr = $data['attributes'];
+
+        if(!isset($attr['checkout_url'])){
+            echo 'No Checkout URL';
+            return false;
+        }
+
+        $checkout_url = $attr['checkout_url'];
+
+        echo $checkout_url;
+    }
+
+
+    public function callback(Request $request){
+
+        Log::channel('paymongo')->info($request->all());
     }
 }
