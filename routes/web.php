@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/pb/test',[App\Http\Controllers\Login\PaymongoTestController::class, 'test']);
+Route::get('/pb/test',[App\Http\Controllers\PaymongoTestController::class, 'test']);
 
 
 Route::middleware([
