@@ -176,7 +176,7 @@ class PaymongoTestController extends Controller
             $save['currency']   = $currency;
             $save['fee']        = $fee;
             $save['amount']     = $amount;
-            $save['status']     = $status;
+            $save['status']     = $status;data
             $save['source']     = $source;
 
             Log::channel('paymongo')->info( json_encode($save) );
@@ -184,5 +184,18 @@ class PaymongoTestController extends Controller
         }catch(\Exception $e){
             Log::channel('paymongo')->info( $e->getMessage() );
         }
+    }
+
+    public function test(){
+
+        $data = [
+            'apple' => [
+                'kwak' => 123
+            ]
+        ];
+
+        $res = Arr::get($data,'apple.kwak','TAE');
+
+        echo $res;
     }
 }
