@@ -118,9 +118,11 @@ class PaymongoTestController extends Controller
     public function callback(Request $request){
        
         try{
+            Log::channel('paymongo')->info( 'Call back' );
 
             $data = $request->input('data');
 
+            Log::channel('paymongo')->info( $data );
             if(!$data){
 
                 return false;
