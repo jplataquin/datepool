@@ -127,14 +127,14 @@ class PaymongoTestController extends Controller
                 Log::channel('paymongo')->info( 'Empty Data' );
                 return false;
             }
-
+            Log::channel('paymongo')->info( '1' );
             //data. attributes . type
             $type = Arr::get($data,'attributes.type',null);
-
+            Log::channel('paymongo')->info( '2' );
             $save = [];
 
             if($type != 'checkout_session.payment.paid'){
-                Log::channel('paymongo')->info( 'Type is wrong '.$type );
+                Log::channel('paymongo')->info( 'Type is wrong = '.$type );
                 return false;
             }
 
