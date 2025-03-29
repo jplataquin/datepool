@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Arr;
 
 class PaymongoTestController extends Controller
 {
@@ -115,7 +116,71 @@ class PaymongoTestController extends Controller
 
 
     public function callback(Request $request){
+       
+        try{
 
-        Log::channel('paymongo')->info($request->all());
+            $data = $request->input('data');
+
+            if(!$data){
+
+                return false;
+            }
+
+            //data. attributes . type
+            $type = Arr::get($data,'attributes.type',null);
+
+            $save = [];
+
+            if($type != 'checkout_session.payment.paid'){
+
+                return false;
+            }
+
+            $save['type'] = $type;
+
+            //data . attributes . livemode
+            $live = Arr::get($data,'attributes.livemode',null);
+
+            $save['live'] = $live;
+
+            //data. attributes.data.attributes.reference_number 
+            $reference_number = Arr::get($data,'attributes.data.attributes.reference_number',null);
+
+            //data. attributes . data. attributes. payments [0] . attributes.
+            //currency
+            //fee
+            //net_amount
+            //amount
+            //status
+            //source.type = gcash
+            
+
+            $payment_arr = Arr::get($data,'attributes.data.attributes.payment');
+
+            if(!isset($payment_arr[0])){
+                Log::channel('paymongo')->info( json_encode($save) );
+
+                return false;
+            }
+
+            $payment = $payment_arr[0];
+
+            $currency = Arr::get($payment,'currency',null);
+            $fee      = Arr::get($payment,'fee',null);
+            $amount   = Arr::get($payment,'amount',null);
+            $status   = Arr::get($payment,'status',null);
+            $source   = Arr::get($payment,'source',null);
+
+            $save['currency']   = $currency;
+            $save['fee']        = $fee;
+            $save['amount']     = $amount;
+            $save['status']     = $status;
+            $save['source']     = $source;
+
+            Log::channel('paymongo')->info( json_encode($save) );
+ 
+        }catch(\Exception $e){
+            Log::channel('paymongo')->info( $e->getMessage() );
+        }
     }
 }

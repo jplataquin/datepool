@@ -67,6 +67,9 @@ class paymongoWebhook extends Command
             case 'enable':
                 return $this->enable($mode,$param1);
                 break;
+            case 'update_events':
+                return $this->update_events($mode,$param1,$param2);
+                break;
             default:
                 $this->error('Invalid action ('.$action.')');
                 return true;
@@ -146,7 +149,8 @@ class paymongoWebhook extends Command
         $events = [
             'source.chargeable',
             'payment.paid',
-            'payment.failed'
+            'payment.failed',
+            'checkout_session.payment.paid'
         ];
 
         if($param2){
@@ -285,6 +289,72 @@ class paymongoWebhook extends Command
             $this->line('===Webhook Enabled===');
             $this->line('ID: '.$param1);
             $this->line('URL: '.$attr['url']);
+            $this->newLine();
+
+        }catch(\Exception $e){
+
+          
+            $this->error('Something went wrong');
+            $this->newLine();
+            $this->line($e->getMessage());
+        }
+
+    }
+
+    private function update_events($mode,$param1,$param2){
+
+        if(!$param1){
+            $this->error('Parameter for webook_id is required');
+            return false;
+        }
+
+        if(!$param2){
+            $this->error('Parameter for list of events is required');
+            return false;
+        }
+
+        $param2 = preg_replace('/\s+/', '', $param2);
+        
+        $events = explode(',',$param2);
+
+        if(!$events){
+            $this->error('Paramter for list of events is empty');
+            return false;
+        }
+
+        $api_endpoint = $this->paymongo_baseurl.$param1;
+
+        try{
+            $this->line('(PUT) Paymongo API: '.$api_endpoint);
+            $this->newLine();
+
+            $response = Http::withHeaders([
+                'Accept'        => 'application/json',
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Basic '.$this->base64_key
+            ])->withBody(json_encode([
+                'data'=>[
+                    'attributes'=>[
+                        'events'=> $events
+                    ]
+                ]
+             ]))
+            ->put($api_endpoint)
+            ->throw()
+            ->json();
+            
+            if(!isset($response['data'])){
+                $this->error('Unrecognized Paymongo resoponse (data)');
+                return false;
+            }
+
+            $data = $response['data'];
+            $attr = $data['attributes'];
+
+            $this->line('===Webhook Events Updated===');
+            $this->line('ID: '.$param1);
+            $this->line('URL: '.$attr['url']);
+            $this->line('Events: '.implode(', ',$attr['events']));
             $this->newLine();
 
         }catch(\Exception $e){
