@@ -157,7 +157,7 @@ class PaymongoTestController extends Controller
             //source.type = gcash
             
 
-            $payment_arr = Arr::get($data,'attributes.data.attributes.payment');
+            $payment_arr = Arr::get($data,'attributes.data.attributes.payments');
 
             if(!isset($payment_arr[0])){
                 Log::channel('paymongo')->info( json_encode($save) );
