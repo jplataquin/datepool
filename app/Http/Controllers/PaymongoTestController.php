@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Arr;
+use Illuminate\Support\Arr;
 
 class PaymongoTestController extends Controller
 {
